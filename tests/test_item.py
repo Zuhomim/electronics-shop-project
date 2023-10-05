@@ -47,8 +47,8 @@ def test__apply_discount(smartphone, notebook):
 def test__item_repr(smartphone, notebook):
     """тестурем метод repr для каждого экземпляра класса Item"""
 
-    assert smartphone.__repr__() == f'Item({smartphone.name}, {smartphone.price}, {smartphone.quantity})'
-    assert notebook.__repr__() == f'Item({notebook.name}, {notebook.price}, {notebook.quantity})'
+    assert smartphone.__repr__() == f"Item('{smartphone.name}', {smartphone.price}, {smartphone.quantity})"
+    assert notebook.__repr__() == f"Item('{notebook.name}', {notebook.price}, {notebook.quantity})"
 
 
 def test__item_name(smartphone):
@@ -76,3 +76,13 @@ def test__instantiate_from_csv():
 
     Item.instantiate_from_csv('src/items.csv')
     assert len(Item.all) == 5
+
+
+def test__item_str(smartphone, notebook):
+    """тестируем магический метод str"""
+
+    item1 = smartphone
+    item2 = notebook
+
+    assert item1.__str__() == 'Смартфон'
+    assert print(item2) == print('Ноутбук')
