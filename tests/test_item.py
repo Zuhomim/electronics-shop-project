@@ -76,6 +76,21 @@ def test__instantiate_from_csv():
 
     Item.instantiate_from_csv('src/items.csv')
     assert len(Item.all) == 5
+    assert Item.all[0].name == 'Смартфон'
+    assert Item.all[1].name == 'Ноутбук'
+    assert Item.all[2].name == 'Кабель'
+    assert Item.all[3].name == 'Мышка'
+    assert Item.all[4].name == 'Клавиатура'
+    assert Item.all[0].price == 100.0
+    assert Item.all[1].price == 1000.0
+    assert Item.all[2].price == 10.0
+    assert Item.all[3].price == 50.0
+    assert Item.all[4].price == 75.0
+    assert Item.all[0].quantity == 1
+    assert Item.all[1].quantity == 3
+    assert Item.all[2].quantity == 5
+    assert Item.all[3].quantity == 5
+    assert Item.all[4].quantity == 5
 
 
 def test__item_str(smartphone, notebook):
