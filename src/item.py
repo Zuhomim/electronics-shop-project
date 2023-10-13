@@ -17,7 +17,7 @@ class Item:
         :param quantity: Количество товара в магазине.
         """
 
-        self.__name = name
+        self.__name = name[:10]
         self.price = price
         self.quantity = quantity
         Item.all.append(self)
@@ -38,27 +38,24 @@ class Item:
     def name(self, name):
         """сеттер атрибута name"""
 
-        if 0 < len(name) < 10:
-            self.__name = name
-        else:
-            self.__name = name[:10]
+        self.__name = name[:10]
 
     @classmethod
     def instantiate_from_csv(cls, csv_path: str):
         """метод создания экземпляров класса из файла items.csv"""
 
-        cls.all = []
+        cls.all.clear()
         with open(csv_path, 'rt', newline='', encoding='windows-1251') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                cls(row["name"], row["price"], row["quantity"])
+                cls(str(row['name']), float(row["price"]), int(row["quantity"]))
 
     @staticmethod
     def string_to_number(string_num):
         """возвращает целое число из строки"""
 
         if isinstance(string_num, str):
-            return round(float(string_num.split('.')[0]))
+            return int(float(string_num))
         else:
             print('Данная запись не является числом-строкой')
 
@@ -75,3 +72,9 @@ class Item:
         """
 
         self.price *= self.pay_rate
+
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        else:
+            raise ValueError('Складывать можно только объекты Item и дочерние от них')
