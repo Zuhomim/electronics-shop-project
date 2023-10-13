@@ -101,3 +101,14 @@ def test__item_str(smartphone, notebook):
 
     assert item1.__str__() == 'Смартфон'
     assert print(item2) == print('Ноутбук')
+
+
+def test__item_add(smartphone, notebook):
+    """тестируем сложение объектов Item, а также ошибку при сложении с объектом, не относящимся к классу Item"""
+
+    item1 = smartphone
+    item2 = notebook
+    assert item1 + item2 == 25
+
+    with pytest.raises(ValueError):
+        b = item1 + 10
