@@ -3,10 +3,15 @@ from src.item import Item
 
 class KeyboardMixin:
     """Миксин для класса Keyboard с доп атрибутом language и методом изменения данного атрибута"""
-    __language = "EN"
+
+    def __init__(self):
+        """Default language is EN."""
+
+        self.__language: str = "EN"
 
     def change_lang(self):
         """Метод изменения атрибута language EN - RU"""
+
         if self.__language == "EN":
             self.__language = "RU"
         else:
@@ -22,11 +27,10 @@ class KeyboardMixin:
 class Keyboard(Item, KeyboardMixin):
     """Класс, наследуемый от Item и KeyboardMixin (доп.атрибут language: по умолчанию EN)"""
 
-    language = KeyboardMixin.language
-
     def __init__(self, name, price, quantity) -> None:
         super().__init__(name, price, quantity)
-        self.__name = name
+        KeyboardMixin.__init__(self)
+        # self.__name = name
 
     def __str__(self):
-        return f'{self.__name}'
+        return f'{super().name}'
