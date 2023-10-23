@@ -30,7 +30,6 @@ class Keyboard(Item, KeyboardMixin):
     def __init__(self, name, price, quantity) -> None:
         super().__init__(name, price, quantity)
         KeyboardMixin.__init__(self)
-        # self.__name = name
 
     def __str__(self):
         return f'{super().name}'
