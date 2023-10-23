@@ -1,6 +1,16 @@
 import csv
 
 
+class InstantiateCSVError(Exception):
+    """Класс обнаружения исключения для метода instantiate_from_csv"""
+
+    def __init__(self, *args):
+        self.message = args if args else "Файл items.csv поврежден"
+
+    def __str__(self):
+        return self.message
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -42,17 +52,24 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls, csv_path: str):
-        """метод создания экземпляров класса из файла items.csv"""
+        """Метод создания экземпляров класса из файла items.csv"""
 
         cls.all.clear()
-        with open(csv_path, 'rt', newline='', encoding='windows-1251') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                cls(str(row['name']), float(row["price"]), int(row["quantity"]))
+        try:
+            with open(csv_path, 'rt', newline='', encoding='windows-1251') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    if not row['name'] or not row['price'] or not row['quantity']:
+                        raise InstantiateCSVError()
+                    else:
+                        cls(str(row['name']), float(row["price"]), int(row["quantity"]))
+        except FileNotFoundError:
+            raise FileNotFoundError('Отсутствует файл items.csv')
+            # print(f'{e.__class__.__name__}: Отсутствует файл items.csv')
 
     @staticmethod
     def string_to_number(string_num):
-        """возвращает целое число из строки"""
+        """Возвращает целое число из строки"""
 
         if isinstance(string_num, str):
             return int(float(string_num))
